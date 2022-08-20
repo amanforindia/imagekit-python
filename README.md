@@ -34,13 +34,13 @@ from imagekitio import ImageKit
 imagekit = ImageKit(
     private_key='your private_key',
     public_key='your public_key',
-    url_endpoint = 'your url_endpoint'
+    url_endpoint='your url_endpoint'
 )
 ```
 
 ## Usage
 
-You can use this Python SDK for 3 different kinds of methods - URL generation, file upload, and file management.
+You can use this Python SDK for 3 different kinds of methods - URL generation, File upload, and File management.
 The usage of the SDK has been explained below.
 
 ## URL generation
@@ -58,7 +58,10 @@ about paths with different kinds of origins.
 imagekit_url = imagekit.url({
             "path": "/default-image.jpg",
             "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-            "transformation": [{"height": "300", "width": "400"}],
+            "transformation": [{
+                "height": "300", 
+                "width": "400"
+            }]
         }
 )
 ```
@@ -106,18 +109,18 @@ The ```.url()``` method accepts the following parameters.
 **1. Chained Transformations as a query parameter**
 
 ```python
-    image_url = imagekit.url({
-        "path": "/default-image.jpg",
-        "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
-        "transformation": [{
-                    "height": "300",
-                    "width": "400"
-                },
-                {
-                    "rotation": 90
-                }],
-        "transformation_position ": "query"
-    })
+image_url = imagekit.url({
+    "path": "/default-image.jpg",
+    "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
+    "transformation": [{
+                "height": "300",
+                "width": "400"
+            },
+            {
+                "rotation": 90
+            }],
+    "transformation_position ": "query"
+})
 ```
 Sample Result URL -
 ```
@@ -134,39 +137,40 @@ the value as "-" in the transformation object. Otherwise, specify the value that
 
 
 ```python
-    image_url = imagekit.url({
-        "src": "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg",
-        "transformation": [{
-            "format": "jpg",
-            "progressive": "true",
-            "effect_sharpen": "-",
-            "effect_contrast": "1"
-        }]
-    })
+image_url = imagekit.url({
+    "src": "https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg",
+    "transformation": [{
+        "format": "jpg",
+        "progressive": "true",
+        "effect_sharpen": "-",
+        "effect_contrast": "1"
+    }]
+})
 ```
 
-```
-//Note that because `src` parameter was used, the transformation string gets added as a query parameter `tr`
+```python
+# Note that because `src` parameter was used, the transformation string gets added as a query parameter `tr`
 https://ik.imagekit.io/your_imagekit_id/endpoint/default-image.jpg?tr=f-jpg%2Cpr-true%2Ce-sharpen%2Ce-contrast-1
 ```
 
 **3. Signed URL that expires in 300 seconds with the default URL endpoint and other query parameters**
 
 ```python
-    image_url = imagekit.url({
-        "path": "/default-image",
-        "query_parameters": {
-            "p1": "123",
-            "p2": "345"
-        },
-        "transformation": [{
-            "height": "300",
-            "width": "400"
-        }],
-        "signed": True,
-        "expire_seconds": 300
-    })
+image_url = imagekit.url({
+    "path": "/default-image",
+    "query_parameters": {
+        "p1": "123",
+        "p2": "345"
+    },
+    "transformation": [{
+        "height": "300",
+        "width": "400"
+    }],
+    "signed": True,
+    "expire_seconds": 300
+})
 ```
+
 **Sample Result URL**
 ```
 https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400/default-image.jpg?v=123&ik-t=1567358667&ik-s=f2c7cdacbe7707b71a83d49cf1c6110e3d701054
@@ -262,8 +266,8 @@ imagekit.upload_file(
 
 ```
 
-If the upload succeeds, `error` will be `null,` and the `result` will be the same as what is received from ImageKit's servers.
-If the upload fails, `error` will be the same as what is received from ImageKit's servers, and the `result` will be null. Learn more from the sample app in this repository.
+If the upload succeeds, `error` will be `None,` and the `response` will be the same as what is received from ImageKit's servers.
+If the upload fails, `error` will be the same as what is received from ImageKit's servers, and the `response` will be `None`. Learn more from the sample app in this repository.
 
 ## File Management
 
@@ -281,6 +285,7 @@ imagekit.list_files({
     "limit": 10,
 })
 ```
+
 **2. Get File Details**
 Accepts the file ID and fetches the details as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/get-file-details)
 
@@ -292,8 +297,7 @@ imagekit.get_file_details(file_id)
 Accepts the file ID and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-for-uploaded-media-files)
 ```python
 imagekit.get_file_metadata(file_id)
-```
-
+``
 
 **3. Get File Metadata from remote url**
 Accepts the remote file url and fetches the metadata as per the [API documentation here](https://docs.imagekit.io/api-reference/metadata-api/get-image-metadata-from-remote-url)
@@ -314,7 +318,7 @@ imagekit.update_file_details("file_id", {
 })
 ```
 
-**6. Delete File**
+**5. Delete File**
 Delete a file as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/delete-file). The method accepts the file ID of the file that has to be
 deleted.
 
@@ -329,12 +333,14 @@ Delete a file as per the [API documentation here](https://docs.imagekit.io/api-r
 imagekit.bulk_file_delete(["file_id1", "file_id2"])
 ```
 
-**6. Purge Cache**
+**7. Purge Cache**
 Programmatically issue a cache clear request as per the [API documentation here](https://docs.imagekit.io/api-reference/media-api/purge-cache).
 Accepts the full URL of the file for which the cache has to be cleared.
+
 ```python
 imagekit.purge_file_cache(full_url)
 ```
+
 **7. Purge Cache Status**
 
 Get the purge cache request status using the request ID returned when a purge cache request gets submitted as pet the
@@ -343,7 +349,6 @@ Get the purge cache request status using the request ID returned when a purge ca
 ```python
 imagekit.get_purge_file_cache_status(cache_request_id)
 ```
-
 
 ## Utility functions
 
@@ -362,6 +367,7 @@ authentication
 `authentication_parameters = imagekit.get_authentication_parameters(token, expire)`
 
 Returns
+
 ```python
 {
     "token": "unique_token",
@@ -392,7 +398,6 @@ def calculate_distance():
 
     distance = imagekit.phash_distance(first_hash, second_hash)
     return distance
-
 ```
 
 **Distance calculation examples**
@@ -409,12 +414,13 @@ imagekit.phash_distance('a4a65595ac94518b', '7838873e791f8400')
 
 ### Sample Code Instruction
 To run `sample` code go to the sample directory and run
+
 ```python
 python sample.py
 ```
+
 ## Support
 For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io]()
-
 
 ## Links
 
@@ -422,7 +428,5 @@ For any feedback or to report any issues or general implementation support, plea
 
 * [Main Website](https://imagekit.io/)
 
-
 ## License
 Released under the MIT license.
-
