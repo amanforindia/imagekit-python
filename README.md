@@ -110,12 +110,12 @@ image_url = imagekit.url({
     "path": "/default-image.jpg",
     "url_endpoint": "https://ik.imagekit.io/your_imagekit_id/endpoint/",
     "transformation": [{
-                "height": "300",
-                "width": "400"
-            },
-            {
-                "rotation": 90
-            }],
+        "height": "300",
+        "width": "400"
+    },
+    {
+        "rotation": 90
+    }],
     "transformation_position ": "query"
 })
 ```
